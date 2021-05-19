@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Добавление продукта в документ";
+}
+
+@model ProductsInOrder
+
+<form asp-action="AddProductsInOrder" asp-controller="Home">
+    <div class="form-group">
+        <label asp-for="OrderNumber" class="control-label">№ документа</label>
+        <input type="number" asp-for="OrderNumber" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ProductNumber" class="control-label">Номенклатурный номер продукта</label>
+        <input type="number" asp-for="ProductNumber" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Quantity" class="control-label">Количество</label>
+        <input type="number" asp-for="Quantity" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Отправить" class="btn btn-default" />
+    </div>
+</form>

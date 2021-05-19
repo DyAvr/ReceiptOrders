@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Products list";
+}
+@model ReceiptOrders.Models.ViewModels.OutputViewModel
+
+
+<a asp-action="CreateProduct">Добавить продукт</a>
+<br>
+
+
+<div>
+    <h3>Список продуктов:</h3>
+    <table>
+        <tr class="header">
+            <td>
+                <p>Номенклатурный номер</p>
+            </td>
+            <td>
+                <p>Цена</p>
+            </td>
+            <td>
+                <p>Стоимость</p>
+            </td>
+        </tr>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>
+                    <p>@product.Number</p>
+                </td>
+                <td>
+                    <p>@product.Price</p>
+                </td>
+                <td>
+                    <p>@product.Cost</p>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
