@@ -1,0 +1,25 @@
+﻿@model ProductsInOrder
+@{
+    ViewBag.Title = "Удаление продуктов из документа";
+}
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>№ документа</dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrderNumber)
+        </dd>
+        <dt>Номенклатурный номер товара</dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductNumber)
+        </dd>
+    </dl>
+
+    <div>
+        <form asp-controller="Home" asp-action="DeleteConnection" method="post">
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" value="Удалить" />
+            </div>
+        </form>
+    </div>
+</div>

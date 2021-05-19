@@ -21,20 +21,24 @@
             <td>
                 <p>Стоимость</p>
             </td>
+            <td></td>
+            <td></td>
         </tr>
         @foreach (var product in Model.Products)
         {
-            <tr>
-                <td>
-                    <p>@product.Number</p>
-                </td>
-                <td>
-                    <p>@product.Price</p>
-                </td>
-                <td>
-                    <p>@product.Cost</p>
-                </td>
-            </tr>
+    <tr>
+        <td>
+            <p>@product.Number</p>
+        </td>
+        <td>
+            <p>@product.Price</p>
+        </td>
+        <td>
+            <p>@product.Cost</p>
+        </td>
+        <td><a asp-action="EditProduct" asp-controller="Home" asp-route-id="@product.Id">Изменить</a></td>
+        <td><a asp-action="DeleteProduct" asp-controller="Home" asp-route-id="@product.Id">Удалить</a></td>
+    </tr>
         }
     </table>
 </div>

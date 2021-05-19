@@ -5,7 +5,7 @@
 
 <a asp-action="CreateOrder">Добавить документ</a><br>
 
-<a asp-action="AddProductsInOrder">Добавить продукты в документ</a>
+
 
 <div>
     <h3>Список приходных ордеров:</h3>
@@ -29,6 +29,8 @@
                 <p>Цена</p></td>
             <td>
                 <p>Стоимость</p></td>
+            <td></td>
+            <td></td>
         </tr>
         @foreach (var order in Model.Orders)
         {
@@ -45,31 +47,48 @@
                     <p>@order.StorageLocation</p></td>
                 @if (Model.ProductsInOrders.Any(i => i.OrderNumber == order.Number))
                 {
+            <td>
+                @foreach (var item in Model.ProductsInOrders.Where(i => i.OrderNumber == order.Number))
+                {
+                    @if (@Model.Products.Any(i => i.Number == item.ProductNumber))
+                    {
+                        <p>@Model.Products.First(i => i.Number == item.ProductNumber).Number</p>
+                    }
+                }
+            </td>
                     <td>
                         @foreach (var item in Model.ProductsInOrders.Where(i => i.OrderNumber == order.Number))
                         {
-                            <p>@Model.Products.First(i => i.Number == item.ProductNumber).Number</p>
+                            @if (@Model.Products.Any(i => i.Number == item.ProductNumber))
+                            {
+                        <p>@item.Quantity</p>
+                            }
+                            
                         }
                     </td>
                     <td>
                         @foreach (var item in Model.ProductsInOrders.Where(i => i.OrderNumber == order.Number))
                         {
-                            <p>@item.Quantity</p>
+                            @if (@Model.Products.Any(i => i.Number == item.ProductNumber))
+                            {
+                        <p>@Model.Products.First(i => i.Number == item.ProductNumber).Price</p>
+                            }
+                            
                         }
                     </td>
                     <td>
                         @foreach (var item in Model.ProductsInOrders.Where(i => i.OrderNumber == order.Number))
                         {
-                            <p>@Model.Products.First(i => i.Number == item.ProductNumber).Price</p>
-                        }
-                    </td>
-                    <td>
-                        @foreach (var item in Model.ProductsInOrders.Where(i => i.OrderNumber == order.Number))
-                        {
-                            <p>@Model.Products.First(i => i.Number == item.ProductNumber).Cost</p>
+                            @if (@Model.Products.Any(i => i.Number == item.ProductNumber))
+                            {
+                                <p>@Model.Products.First(i => i.Number == item.ProductNumber).Cost</p>
+                            }
+                            
                         }
                     </td>
                 }
+                <td><a asp-action="Edit" asp-controller="Home" asp-route-id="@order.Id">Изменить</a></td>
+                <td><a asp-action="Delete" asp-controller="Home" asp-route-id="@order.Id">Удалить</a></td>
             </tr>
         }
     </table>

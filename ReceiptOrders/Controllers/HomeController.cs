@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using ReceiptOrders.Models.ViewModels;
 
 namespace ReceiptOrders.Controllers
@@ -44,6 +45,17 @@ namespace ReceiptOrders.Controllers
 
             return View(model);
         }
+        public IActionResult ProductsInOrders()
+        {
+            var model = new OutputViewModel()
+            {
+                Orders = _context.Orders,
+                Products = _context.Products,
+                ProductsInOrders = _context.ProductsInOrders.OrderBy(i => i.OrderNumber)
+            };
+
+            return View(model);
+        }
 
         public IActionResult Privacy()
         {
@@ -62,6 +74,146 @@ namespace ReceiptOrders.Controllers
         public IActionResult AddProductsInOrder()
         {
             return View();
+        }
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id != null)
+            {
+                Order order = await _context.Orders.FirstOrDefaultAsync(p => p.Id == id);
+                if (order != null)
+                    return View(order);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Order order)
+        {
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [ActionName("Delete")]
+        public async Task<IActionResult> ConfirmDelete(int? id)
+        {
+            if (id != null)
+            {
+                Order order = await _context.Orders.FirstOrDefaultAsync(p => p.Id == id);
+                if (order != null)
+                    return View(order);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id != null)
+            {
+                Order order = await _context.Orders.FirstOrDefaultAsync(p => p.Id == id);
+                if (order != null)
+                {
+                    _context.Orders.Remove(order);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+            }
+            return NotFound();
+        }
+        public async Task<IActionResult> EditProduct(int? id)
+        {
+            if (id != null)
+            {
+                Product product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+                if (product != null)
+                    return View(product);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProduct(Product product)
+        {
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Products");
+        }
+        [HttpGet]
+        [ActionName("DeleteProduct")]
+        public async Task<IActionResult> ConfirmDeleteProduct(int? id)
+        {
+            if (id != null)
+            {
+                Product product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+                if (product != null)
+                    return View(product);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteProduct(int? id)
+        {
+            if (id != null)
+            {
+                Product product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+                if (product != null)
+                {
+                    _context.Products.Remove(product);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Products");
+                }
+            }
+            return NotFound();
+        }
+
+        public async Task<IActionResult> EditConnection(int? id)
+        {
+            if (id != null)
+            {
+                ProductsInOrder connection = await _context.ProductsInOrders.FirstOrDefaultAsync(p => p.Id == id);
+                if (connection != null)
+                    return View(connection);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditConnection(ProductsInOrder connection)
+        {
+            _context.ProductsInOrders.Update(connection);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("ProductsInOrders");
+        }
+        [HttpGet]
+        [ActionName("DeleteConnection")]
+        public async Task<IActionResult> ConfirmDeleteConnection(int? id)
+        {
+            if (id != null)
+            {
+                ProductsInOrder connection = await _context.ProductsInOrders.FirstOrDefaultAsync(p => p.Id == id);
+                if (connection != null)
+                    return View(connection);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConnection(int? id)
+        {
+            if (id != null)
+            {
+                ProductsInOrder connection = await _context.ProductsInOrders.FirstOrDefaultAsync(p => p.Id == id);
+                if (connection != null)
+                {
+                    _context.ProductsInOrders.Remove(connection);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("ProductsInOrders");
+                }
+            }
+            return NotFound();
         }
 
         [HttpPost]
