@@ -240,7 +240,7 @@ namespace ReceiptOrders.Controllers
             // Указываем количество данного продукта в документе
             _context.ProductsInOrders.Add(productsInOrder);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("ProductsInOrders");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
